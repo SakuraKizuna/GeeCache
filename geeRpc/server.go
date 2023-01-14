@@ -55,8 +55,8 @@ func Accept(lis net.Listener) { DefaultServer.Accept(lis) }
 
 // ServeConn runs the server on a single connection.
 // ServeConn blocks, serving the connection until the client hangs up.
-// ServeConn在单个连接上运行服务器。
-// ServeConn阻塞，服务连接直到客户端挂断。
+// ServeConn 在单个连接上运行服务器。
+// ServeConn 阻塞，服务连接直到客户端挂断。
 func (server *Server) ServeConn(conn io.ReadWriteCloser) {
 	defer func() { _ = conn.Close() }()
 	var opt Option

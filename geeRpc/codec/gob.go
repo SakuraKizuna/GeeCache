@@ -10,8 +10,8 @@ import (
 type GobCodec struct {
 	conn io.ReadWriteCloser //由构建函数传入，通常是通过 TCP 或者 Unix 建立 socket 时得到的链接实例
 	buf  *bufio.Writer      //防止阻塞而创建的带缓冲的 Writer，一般这么做能提升性能。
-	dec  *gob.Decoder
-	enc  *gob.Encoder
+	dec  *gob.Decoder       //解码器
+	enc  *gob.Encoder       //编码器
 }
 
 func (c *GobCodec) ReadHeader(header *Header) error {
@@ -24,7 +24,7 @@ func (c *GobCodec) ReadBody(body interface{}) error {
 
 func (c *GobCodec) Write(header *Header, body interface{}) (err error) {
 	defer func() {
-		_ = c.buf.Flush()
+		_ = c.buf.Flush() //Flush将所有缓冲数据写入基础io.Writer
 		if err != nil {
 			_ = c.Close()
 		}
